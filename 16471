@@ -1,0 +1,36 @@
+//silverysky 16471
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main(void){
+   int N;
+   int max, tmp;
+   vector<int> J;
+   vector<int> S; //Juan, Sazang
+   int probability = 1;
+   cin>>N;
+   for(int i=0; i<N; i++){
+       cin>>tmp;
+       J.push_back(tmp);
+   }
+   for(int i=0; i<N; i++){
+       cin>>tmp;
+       S.push_back(tmp);
+   }
+   sort(J.begin(), J.end());
+   sort(S.begin(), S.end());
+   for(int i=0; i<N/2 + 1; i++){
+       if(J[i] >= S[N/2 + i]){
+           probability = 0;
+           break;
+       }
+   }
+   if(probability)
+       cout<<"YES";
+   else
+       cout<<"NO";
+
+   return 0;
+}
