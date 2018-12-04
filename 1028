@@ -1,0 +1,56 @@
+//silverysky 1028
+#include <iostream>
+using namespace std;
+
+int main(void){
+ int R, C, MS;//row, column, min size
+ int arr[750][750];
+ int tmp, r=0;
+ int x, y;
+ int check;
+ //input
+ cin>>R>>C;
+ for(int i=0; i<R; i++){
+     for(int j=0; j<C; j++)
+         scanf("%1d", &arr[i][j]);
+ }
+ MS = (R < C) ? R : C;
+
+ //find diamond
+ //기본 아이디어 : 가령 size 3인 다이아몬드라고 하면
+ //5*5 범위를 잡고 그걸 4개의 사분면으로 나눠서 하나씩 검사
+ for(int i=0; i<(MS+1)/2; i++){        //i == size of diamond -1
+     for(int j=0; j<R-2*i; j++){       //j == starting point of row
+         for(int k=0; k<C-2*i; k++){   //k == starting point of column
+             x=0; y=i;
+             check = 0; //check가 0이면 해당 출발점은 다이아몬드 없음
+             while(x<=i){
+                 if(
+                     1==arr[j+ x][k+ y] &&//2사분면
+                     1==arr[j+ i + x][k+ i+y] &&//4사분면
+                     1==arr[j+ y][k+i + y] &&//1사분면
+                     1==arr[j + i + x][k+ x] //3사분면
+                 ) check = 1;
+                 else{
+                     check = 0;//하나라도 삐끗하면 다이아몬드 없다는 말
+                     break; //따라서 이 사이즈 이 출발점은 버림
+                 }
+                 x++; y--;
+             }
+             if(check==1){  //다 통과하면 해당 출발점에서 다이아몬드 있음
+                 tmp = i+1;  //다이아몬드 사이즈임
+                 if(tmp > r)
+                     r = tmp; //r(result) 변수에 다이아몬드 사이즈 대입
+             }
+             if(check==1) //해당 사이즈의 다이아몬드 찾았으므로
+                 break;   //그 사이즈의 탐색은 더 이상 불필요함. 루프탈출
+         }
+         if(check==1)//해당 사이즈의 다이아몬드 찾았으므로
+             break;  //그 사이즈의 탐색은 더 이상 불필요함. 루프탈출
+     }
+ }
+
+  //output
+ cout<<r;
+ return 0;
+}
