@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+typedef struct _heap{
+	int data[1000001];
+	int n;//how many data
+} heap;
+void init(heap* h){
+	h->n = 0;
+}
+void swap(int* a, int* b){
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+int isleaf(heap* h, int k){
+	if(k*2 > h->n)
+		return 1;
+	else 
+		return 0;
+}
+int smallerchild(heap* h, int k){
+	if(isleaf(h, k))
+		return 0;
+	else if(h->n == k*2)
+		return k*2;
+	else
+		return ((h->data[k*2] < h->data[k*2+1])?  k*2 :  k*2+1);
+}
+void siftDown(heap* h, int k){
+	int j;
+	while(isleaf(h, k)==0){
+		j = smallerchild(h, k);
+		if(h->data[k] <= h->data[j])
+			return;
+		swap(&(h->data[k]), &(h->data[j]));
+		k = j;
+	}
+}
+int deleteMin(heap* h){
+	int r = h->data[1];
+	h->data[1] = h->data[(h->n)--];
+	siftDown(h, 1);
+	return r;
+}
+void MinHeapBottomUp(heap* h, int n){
+	int i;
+	for(i=n/2+1; i >=1; i--){
+		siftDown(h, i);
+	}
+}
+int main(void){
+    heap A;
+    init(&A);
+    int arr[1000001];
+    int N;
+    cin>>N;
+    
+    for(int i=1; i<=N; i++){
+        scanf("%d", &A.data[i]);
+        (A.n)++;
+    }
+    MinHeapBottomUp(&A, A.n);
+    
+    for(int i=1; i<=N; i++){
+        printf("%d\n", deleteMin(&A));
+    }
+    
+    return 0;
+}
