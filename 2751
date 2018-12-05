@@ -1,3 +1,5 @@
+//cin이나 cout을 쓰면 시간초과가 나서 scanf, printf로 대신함
+//함수 콜 시간 줄이려고 잘 안 쓰던 삼항연산자도 써봄
 #include <iostream>
 #include <cstdio>
 using namespace std;
