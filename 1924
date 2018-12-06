@@ -1,0 +1,31 @@
+//1924 2007년
+#include <iostream>
+using namespace std;
+
+int main(void){
+    int x, y;
+    int calender[7][53];
+    int n=0;
+    
+    cin>>x>>y;
+    
+    int jan=31, feb=28, mar=31, apr=30, may=31, jun=30;
+    int jul=31, aug=31, sep=30, oct=31, nov=30, dec=31;
+    int month[12]={jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec};
+    
+    for(int i=0; i<x-1; i++){
+        n += month[i];
+    }
+    n+=y;
+    switch(n%7){
+        case 1: cout<<"MON"; break;
+        case 2: cout<<"TUE"; break;
+        case 3: cout<<"WED"; break;
+        case 4: cout<<"THU"; break;
+        case 5: cout<<"FRI"; break;
+        case 6: cout<<"SAT"; break;
+        case 0: cout<<"SUN"; break;
+    }
+    
+    return 0;
+}
