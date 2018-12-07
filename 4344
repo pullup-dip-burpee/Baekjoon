@@ -1,0 +1,31 @@
+//
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main(void){
+    int C, N, n;
+    int score[1000];
+    double tmp = 0;
+    double ratio = 0;
+    cin>>C;
+    for(int i=0; i<C; i++){
+        //input
+        n=0;//평균 넘는 사람의 수
+        tmp=0;//평균점수
+        cin>>N;
+        for(int j=0; j<N; j++){
+            scanf("%d", &score[j]);
+            tmp += score[j];
+        }
+        tmp /= (double)N;
+        //평균 넘는 사람 수 계산
+        for(int j=0; j<N; j++){
+            if(score[j]>tmp)
+                n++;
+        }
+        //output
+        printf("%.3lf\%\n", n/(double)N * 100);
+    }
+    return 0;
+}
