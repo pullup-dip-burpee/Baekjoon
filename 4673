@@ -1,0 +1,23 @@
+//silverysky 4673
+#include <iostream>
+using namespace std;
+
+int selfnumber(int n){
+    return n+n/1000+(n%1000)/100+(n%100)/10+n%10;
+}
+int main(void){
+    int tmp=0;
+    int arr[10100];
+    for(int i=1; i<=10000; i++){
+        arr[i] = i;
+    }
+    for(int i=1; i<=10000; i++){
+        arr[selfnumber(i)]=0;
+    }
+    for(int i=1; i<10000; i++){
+        if(arr[i]!=0)
+            printf("%d\n", arr[i]);
+    }
+    
+    return 0;
+}
