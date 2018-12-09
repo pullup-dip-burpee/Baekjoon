@@ -1,0 +1,32 @@
+//silverysky 8958 OX퀴즈
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void){
+    int N;
+    string line;
+    string::iterator it;
+    int tmp=0, score=0;
+    cin>>N;
+    for(int i=0; i<N; i++){
+        cin>>line;
+        it = line.begin();
+        tmp = 0;
+        score = 0;
+        while(it != line.end()){
+            if(*it == 'O'){
+                tmp++;
+                score += tmp;
+            }
+            else{
+                tmp = 0;
+            }
+            it++;
+        }
+        printf("%d\n", score);
+    }
+    
+    return 0;
+}
