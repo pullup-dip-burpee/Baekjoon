@@ -1,0 +1,35 @@
+//silverysky 2448
+#include <iostream>
+using namespace std;
+
+int arr[7000][4000];
+
+void star(int n, int x, int y){//N, 삼각형의 윗 꼭지점 위치
+    if(n==3){
+        arr[x][y]=1;
+        arr[x-1][y+1]=1; arr[x+1][y+1]=1;
+        arr[x-2][y+2]=1; arr[x-1][y+2]=1; arr[x][y+2]=1;
+        arr[x+1][y+2]=1; arr[x+2][y+2]=1;
+     }
+    else{
+        star(n/2, x, y);
+        star(n/2, x-n/2, y+n/2);
+        star(n/2, x+n/2, y+n/2);
+    }
+}
+int main(void){
+    int N;
+    cin>>N;
+    star(N, N-1, 0);
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N*2; j++){
+            if(arr[j][i]==1)
+                printf("*");
+            else
+                printf(" ");
+        }
+        printf("\n");
+    }
+    
+    return 0;
+}
