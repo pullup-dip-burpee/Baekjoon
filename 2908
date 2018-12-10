@@ -1,0 +1,31 @@
+//silverysky 2908
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void){
+    int a, b;
+    string as, bs;
+    char tmp;
+    cin>>a>>b;
+    as = to_string(a);
+    bs = to_string(b);
+    
+    //swap
+    tmp = as[0];
+    as[0] = as[2];
+    as[2] = tmp;
+    
+    tmp = bs[0];
+    bs[0] = bs[2];
+    bs[2] = tmp;
+    
+    //stoi
+    a = stoi(as);
+    b = stoi(bs);
+    if(a > b)
+        cout<<a;
+    else
+        cout<<b;
+    return 0;
+}
