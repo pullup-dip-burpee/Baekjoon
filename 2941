@@ -1,0 +1,46 @@
+//silverysky 2941 크로아티아 알파벳
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void){
+   string input;
+   int cnt = 0;
+   int tmp = 0;
+   string k[8];
+   k[0]="c=";    k[1]="c-";    k[2]="dz=";    k[3]="d-";
+   k[4]="lj";    k[5]="nj";    k[6]="s=";    k[7]="z=";
+
+   cin>>input;
+   //크로아티아 알파벳 세기
+   for(int i=0; i<8; i++){
+       for(int j=0; j<input.size(); j++){
+           tmp = 0;
+           for(int p=0; p<k[i].size(); p++){
+               if(k[i][p]!=input[j+p]){
+                   tmp = 0;
+                   break;
+               }
+               else
+                   tmp = 1;
+           }
+           if(tmp==1){
+               cnt++;
+               //크로아티아 알파벳 삭제
+               for(int d=0; d<k[i].size(); d++){
+                   input[j+d] = '*';
+               }
+               j += k[i].size();
+           }
+       }
+   }
+   //그냥 알파벳 세기
+   for(int i=0; i<input.size(); i++){
+       if('a'<=input[i] && input[i]<='z')
+           cnt++;
+   }
+
+   cout<<cnt;
+
+   return 0;
+}
