@@ -1,0 +1,89 @@
+//silverysky 1022
+//arr[10001][10001]쓰니까 런타임에러나서
+//계차수열 활용해서 좌표 구함
+#include <iostream>
+#include <cmath>
+#include <string>
+using namespace std;
+
+//좌표에 해당하는 수를 구하는 함수
+//계차수열 공식 쓰면 됨
+int func(int x, int y){
+    if(x==0 && y==0)
+        return 1;
+    
+    int bigger = (abs(x) >= abs(y)) ? x : y;
+    int smaller = (abs(x) < abs(y)) ? x : y;
+    int point;//방향 우상좌하 0123
+    int num = 1;//좌표 (0, 0)의 수에서 cnt만큼 여러 번 더함
+    int cnt;//우상좌하에 따른 최초 증가
+    
+    if(abs(x)>=abs(y)){
+        if(x<0){
+            point = 1;    cnt = 3;
+        }
+        else{
+            point = 3;    cnt = 7;
+        }
+    }
+    else{
+        if(y>0){
+            point = 0;    cnt = 1;
+        }
+        else{
+            point = 2;    cnt = 5;
+        }
+    }
+    
+    //가령 (8,4)를 구하는 거면 (8,0)부터 구하고
+    for(int i=0; i<abs(bigger); i++){
+        num += cnt;
+        cnt += 8;
+    }
+    //그 다음 (8,0)에서 네 칸 이동해서 (8,4) 구하기
+    switch(point){
+        case 0: num -= x; break;
+        case 1: num -= y; break;
+        case 2: num += x; break;
+        case 3: num += y; break;
+    }
+    
+    return num;
+}
+int digitnumber(int a){
+    int r=1;
+    while(a>=10){
+        a /= 10;
+        r++;
+    }
+    return r;
+}
+int main(void){
+   string tmp;
+   int t;
+   int max=0;//가장 큰 수의 자리수
+   int r1, c1, r2, c2;
+   cin>>r1>>c1>>r2>>c2;
+
+   for(int i=r1; i<=r2; i++){
+       for(int j=c1; j<=c2; j++){
+           t = digitnumber(func(i, j));
+           if(t>max)
+               max = t;
+       }
+   }
+   for(int i=r1; i<=r2; i++){
+       for(int j=c1; j<=c2; j++){
+           t = digitnumber(func(i, j));
+           if(t<max){
+               for(int k=0; k<max-t; k++)
+                   cout<<" ";
+           }
+           cout<<func(i, j);
+           if(j!=c2)
+               cout<<" ";
+       }
+       cout<<endl;
+   }
+   return 0;
+}
