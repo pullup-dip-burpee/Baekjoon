@@ -1,0 +1,48 @@
+//silverysky 1316 그룹 단어 체커
+#include <iostream>
+#include <string>
+using namespace std;
+
+int isGroupWord(string s){
+    int arr[26] = {0, };//0 : 입력된 적 없는 글자, 1 : 연속되는 중, 2: 연속 끝, 3:연속 끝났는데 또 나옴
+    char tmp = s[0];
+    for(int i=0; i<s.size(); i++){
+        if(tmp == s[i]){//전 글자랑 같으면
+            switch(arr[s[i]-'a']){
+                case 0: arr[s[i]-'a'] = 1; break;
+                case 1: arr[s[i]-'a'] = 1; break;
+                case 2: arr[s[i]-'a'] = 3; return 0;
+                case 3: arr[s[i]-'a'] = 3; return 0;
+            }
+        }
+        else{//전 글자랑 다르면
+            switch(arr[tmp-'a']){//전 글자
+                case 1: arr[tmp-'a'] = 2; break;
+                case 2: arr[s[i]-'a'] = 3; return 0;
+                case 3: arr[s[i]-'a'] = 3; return 0;
+            }
+            switch(arr[s[i]-'a']){//현 글자
+                case 0: arr[s[i]-'a'] = 1; break;
+                case 2: arr[s[i]-'a'] = 3; return 0;
+                case 3: arr[s[i]-'a'] = 3; return 0;
+            }
+        }
+        tmp = s[i];
+    }
+    return 1;
+}
+
+int main(void){
+    int N;
+    string tmp;
+    int cnt = 0;
+    
+    cin>>N;
+    for(int i=0; i<N; i++){
+        cin>>tmp;
+        cnt += isGroupWord(tmp);
+    }
+    
+    cout<<cnt;
+    return 0;
+}
