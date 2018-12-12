@@ -1,0 +1,22 @@
+//silverysky 3053
+#define _USE_MATH_DEFINES
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(void){
+    double R;
+    double pi = M_PI;
+    cin>>R;
+    
+    double r1, r2;
+    r1 = R*R*pi;
+    
+    r2 = R*R*2;
+    
+    cout<<fixed;
+    cout.precision(6);
+    cout<<r1<<"\n"<<r2;
+    return 0;
+}
