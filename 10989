@@ -1,0 +1,24 @@
+//silverysky 10989 수 정렬하기 3
+//counting sort
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+int main(void){
+    int N;
+    int tmp;
+    int cnt[10001] = {0,};
+    scanf("%d", &N);
+    
+    for(int i=0; i<N; i++){
+        scanf("%d", &tmp);
+        cnt[tmp]++;
+    }
+    
+    for(int i=0; i<10001; i++){
+        for(int j=0; j<cnt[i]; j++){
+            printf("%d\n", i);
+        }
+    }
+    return 0;
+}
