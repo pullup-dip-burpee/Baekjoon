@@ -1,0 +1,75 @@
+//silverysky 2108
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main(void){
+    int N;
+    int tmp;
+    int cnt=0;
+    int maxcnt=0;
+    int most;
+    int most2 = 5000;
+    int dub = 0;
+    int sum=0;
+    vector<int> arr;
+    double r1,r2,r3,r4;
+    cin>>N;
+    cout<<fixed;
+    cout.precision(0);
+    for(int i=0;i<N; i++){
+        cin>>tmp;
+        arr.push_back(tmp);
+        sum+=tmp;
+    }
+
+    sort(arr.begin(), arr.end());
+    
+    //r1 산술평균
+    r1 = sum / (double)N;
+    
+    //r2 중앙값
+    if(N%2==0)
+        r2 = arr[N/2] + arr[N/2-1];
+    else
+        r2 = arr[N/2];
+    
+    //r3 최빈값
+    tmp = arr[0];
+    for(int i=0; i<N; i++){
+        if(tmp != arr[i]){
+            cnt = 0;
+            tmp = arr[i];
+        }
+        cnt++;
+        if(cnt > maxcnt){
+            maxcnt = cnt;
+            dub = 0;
+            most = arr[i];
+            most2 = 5000;
+        }
+        else if(cnt == maxcnt){
+            if(arr[i]<most2){
+                if(arr[i]<most){
+                    most2 = most;
+                    most = arr[i];
+                }
+                else
+                    most2 = arr[i];
+            }
+            dub = 1;
+        }
+    }
+    if(dub == 0)
+        r3 = most;
+    else
+        r3 = most2;
+    
+    //r4 범위
+    r4 = arr[N-1] - arr[0];
+
+
+    cout<<r1<<"\n"<<r2<<"\n"<<r3<<"\n"<<r4;
+    return 0;
+}
