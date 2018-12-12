@@ -1,0 +1,24 @@
+//silverysky 1475
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void){
+    int max = 0;
+    int arr[10] = {0, };
+    string N;
+    cin>>N;
+    
+    for(int i=0; i<N.size(); i++){
+        arr[N[i]-'0']++;
+    }
+    arr[6] = (arr[6] + arr[9] + 1)/2;
+    arr[9] = 0;
+    for(int i=0; i<10; i++){
+        if(arr[i] > max)
+            max = arr[i];
+    }
+    cout<<max;
+    
+    return 0;
+}
