@@ -1,0 +1,116 @@
+//silverysky 2504 괄호의 값
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+void printall(vector<int> a){
+    cout<<"printall"<<endl;
+    for(int i=0; i<a.size(); i++){
+        cout<<a[i]<<endl;
+    }
+}
+int main(void){
+    string input;
+    cin>>input;
+    
+    int res=0;
+    vector<char> stack_p;
+    vector<int> stack_int;
+    vector<char> stack_op;
+    char tmp;
+    int a, b;
+    
+    
+    for(int i=0; i<input.size(); i++){
+        if(input[i]==')'){
+            if(stack_p.empty()){
+                cout<<0;
+                return 0;
+            }
+            else if(stack_p.back()=='('){
+                stack_p.pop_back();
+                stack_int.push_back(2);
+                stack_p.push_back('i');
+            }
+            else{
+                res = 0;
+                while(!stack_p.empty()){
+                    tmp = stack_p.back();
+                    
+                    if(tmp=='['){
+                        cout<<0;
+                        return 0;
+                    }
+                    else if(tmp=='('){
+                        stack_p.pop_back();
+                        res *= 2;
+                        stack_int.push_back(res);
+                        stack_p.push_back('i');
+                        break;
+                    }
+                    else{//int case
+                        res += stack_int.back();
+                        stack_int.pop_back();
+                        stack_p.pop_back();
+                    }
+                }
+            }
+        }
+        else if(input[i]==']'){
+            if(stack_p.empty()){
+                cout<<0;
+                return 0;
+            }
+            else if(stack_p.back()=='['){
+                stack_p.pop_back();
+                stack_int.push_back(3);
+                stack_p.push_back('i');
+            }
+            else{
+                res = 0;
+                while(!stack_p.empty()){
+                    tmp = stack_p.back();
+                    
+                    if(tmp=='('){
+                        cout<<0;
+                        return 0;
+                    }
+                    else if(tmp=='['){
+                        stack_p.pop_back();
+                        res *= 3;
+                        stack_int.push_back(res);
+                        stack_p.push_back('i');
+                        break;
+                    }
+                    else{//int case
+                        res += stack_int.back();
+                        stack_int.pop_back();
+                        stack_p.pop_back();
+                    }
+                }
+            }
+        }
+        else if(input[i]=='(' || input[i]=='['){
+            stack_p.push_back(input[i]);
+        }
+    }
+    while(stack_int.size() > 1){
+        int a = stack_int.back();
+        stack_int.pop_back();
+        int b = stack_int.back();
+        stack_int.pop_back();
+        stack_int.push_back(a+b);
+        
+        stack_p.pop_back();
+    }
+    
+    if(stack_p.size() != 1){
+        cout<<0;
+        return 0;
+    }
+    
+    
+    cout<<stack_int.back();
+    return 0;
+}
