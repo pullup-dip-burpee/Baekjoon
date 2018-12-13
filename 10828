@@ -1,0 +1,46 @@
+//silverysky 10828
+#include <iostream>
+using namespace std;
+ 
+class stack{
+public:
+   int arr[10000];
+   int n;
+};
+int main(void){
+   stack s;
+   string cmd;
+   int tmp;
+   int N;
+   cin>>N;
+   s.n = 0;
+ 
+   for(int i=0; i<N; i++){
+       cin>>cmd;
+       if(cmd == "push"){
+           cin>>s.arr[s.n++];
+       }
+       else if(cmd == "pop"){
+           if(s.n==0){
+               cout<<-1<<endl;
+           }
+           else{
+               printf("%d\n", s.arr[s.n-1]);
+               (s.n)--;
+           }
+       }
+       else if(cmd == "size"){
+           cout<<s.n<<endl;
+       }
+       else if(cmd == "empty"){
+           if(s.n==0)
+               cout<<1<<endl;
+           else
+               cout<<0<<endl;
+       }
+       else if(cmd == "top"){
+           printf("%d\n", s.arr[s.n-1]);
+       }
+   }
+   return 0;
+}
