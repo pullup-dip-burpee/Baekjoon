@@ -1,0 +1,49 @@
+//silverysky 1874 스택 수열
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main(void){
+    bool NO = false;
+    int cnt=1;
+    int n;
+    int input[100000];
+    int idx = 0;
+    vector<int> stack;
+    vector<char> output;
+    //input
+    cin>>n;
+    for(int i=0; i<n; i++){
+        scanf("%d", &input[i]);
+    }
+    
+    //process
+    while(cnt<=n || !(stack.empty()) ){
+        if(stack.empty() || input[idx] > stack.back()){
+            stack.push_back(cnt++);
+            output.push_back('+');
+        }
+        else if(input[idx] < stack.back()){
+            NO = true;
+            break;
+        }
+        else if(input[idx++] == stack.back()){
+            stack.pop_back();
+            output.push_back('-');
+        }
+        
+    }
+    
+    
+    //output
+    if(NO){
+        cout<<"NO";
+    }
+    else{
+        for(int i=0; i<output.size(); i++){
+            printf("%c\n", output[i]);
+        }
+    }
+    
+    return 0;
+}
