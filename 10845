@@ -1,0 +1,106 @@
+//silverysky 10845
+#include <iostream>
+#include <string>
+#include <cstdlib>
+using namespace std;
+typedef struct _node{
+    int key;
+    struct _node* next;
+} node;
+
+class queue{
+    node* head;
+    node* tail;
+    int n;
+public:
+    queue(){
+        head = NULL;
+        tail = NULL;
+        n=0;
+    }
+    void push(int x);
+    void pop();
+    void size();
+    void empty();
+    void front();
+    void back();
+};
+
+void queue::push(int x){
+    node* tmp = (node*)malloc(sizeof(node));
+    tmp->key = x;
+    tmp->next = NULL;
+    if(n==0){
+        head = tmp;
+        tail = tmp;
+    }
+    else{
+        tail->next = tmp;
+        tail = tmp;
+    }
+    n++;
+}
+void queue::pop(){
+    node* tmp_pop;
+    if(n==0)
+        printf("%d\n", -1);
+    else{
+        printf("%d\n", head->key);
+        tmp_pop = head;
+        head = head->next;
+        free(tmp_pop);
+        n--;
+    }
+}
+void queue::size(){
+    printf("%d\n", n);
+}
+void queue::empty(){
+    if(n==0)
+        printf("1\n");
+    else
+        printf("0\n");
+}
+void queue::front(){
+    if(n!=0)
+        printf("%d\n", head->key);
+    else
+        printf("-1\n");
+}
+void queue::back(){
+    if(n!=0)
+        printf("%d\n", tail->key);
+    else
+        printf("-1\n");
+}
+int main(void){
+    int N;
+    cin>>N;
+    int x;
+    queue q = queue();
+    string cmd;
+    
+    for(int i=0; i<N; i++){
+        cin>>cmd;
+        if(cmd == "push"){
+            scanf("%d", &x);
+            q.push(x);
+        }
+        else if(cmd=="pop"){
+            q.pop();
+        }
+        else if(cmd=="size"){
+            q.size();
+        }
+        else if(cmd=="empty"){
+            q.empty();
+        }
+        else if(cmd=="front"){
+            q.front();
+        }
+        else if(cmd=="back"){
+            q.back();
+        }
+    }
+    return 0;
+}
