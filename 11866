@@ -1,0 +1,77 @@
+//silverysky 11866 조세퍼스 문제 0
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+typedef struct _node{
+    int key;
+    struct _node* next;
+} node;
+//circular queue
+class queue{
+public:
+    node* head;
+    node* tail;
+    int n;
+    queue(){
+        head = NULL;
+        tail = NULL;
+        n=0;
+    }
+    void push(int x);
+    void Mpop(int M);
+    void empty();
+};
+
+void queue::push(int x){
+    node* tmp = (node*)malloc(sizeof(node));
+    tmp->key = x;
+    tmp->next = NULL;
+    if(n==0){
+        head = tmp;
+        tail = tmp;
+    }
+    else{
+        tail->next = tmp;
+        tail = tmp;
+    }
+    tail->next = head;
+    n++;
+}
+void queue::Mpop(int M){
+    node* curr = head;
+    for(int i=1; i<M; i++){
+        tail = curr;
+        curr = curr->next;
+    }
+    head = curr->next;
+    tail->next = head;
+    printf("%d", curr->key);
+    free(curr);
+    
+    n--;
+}
+void queue::empty(){
+    if(n==0)
+        printf("1\n");
+    else
+        printf("0\n");
+}
+int main(void){
+    int N, M;
+    cin>>N>>M;
+    
+    queue q = queue();
+    for(int i=0; i<N; i++){
+        q.push(i+1);
+    }
+    
+    cout<<"<";
+    while(q.n != 0){
+        q.Mpop(M);
+        if(q.n != 0){
+            cout<<", ";
+        }
+    }
+    cout<<">";
+    return 0;
+}
