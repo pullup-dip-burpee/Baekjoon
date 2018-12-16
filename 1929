@@ -1,0 +1,37 @@
+//silverysky 1929 소수 구하기
+//에라토스테네스의 체 구현
+
+#include <iostream>
+using namespace std;
+
+unsigned int primes[1000002];//0 -> not prime
+
+int main(void){
+    int M, N;
+    cin>>M>>N;
+    for(int i=0; i<=N; i++){
+        primes[i] = i;
+    }
+    primes[1] = 0;
+    for(int i=2; i<=N; i++){
+        if((unsigned int)(i*i) > 1000000)
+            break;
+    	else if(primes[i] != 0){//i가 소수면 i로 나눠지는 수 지우기 시작
+    		for(unsigned int j=i*i; j<=N; j += i){//지우기는 i의 제곱부터 출발해서 i만큼 더함.
+                if(j > 1000000)
+                    break;
+        	    else if(primes[j]%primes[i]==0)
+            	    primes[j]=0;
+        	}
+    	}
+    }
+    
+    for(int i=M; i<=N; i++){
+        if(primes[i] != 0){
+            printf("%d", primes[i]);
+        	if(i!=N)
+        		printf("\n");
+        }
+    }
+    return 0;
+}
