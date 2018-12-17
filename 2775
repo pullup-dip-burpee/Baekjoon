@@ -1,0 +1,25 @@
+//silverysky 2775
+#include <iostream>
+using namespace std;
+
+int arr[15][15] = {0, };//층과 호
+int main(void){
+    for(int i=0; i<15; i++){
+        arr[0][i] = i;
+    }
+    for(int i=1; i<=14; i++){
+        for(int j=1; j<=14; j++){
+            for(int k=1; k<=j; k++){
+                arr[i][j] += arr[i-1][k];
+            }
+        }
+    }
+    
+    int T, n, k;
+    cin>>T;
+    for(int i=0; i<T; i++){
+        cin>>n>>k;
+        printf("%d\n",arr[n][k]);
+    }
+    return 0;
+}
