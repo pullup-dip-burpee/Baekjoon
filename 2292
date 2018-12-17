@@ -1,0 +1,24 @@
+//silverysky 2292 벌집
+//계차수열 문제임
+#include <iostream>
+using namespace std;
+
+int main(void){
+    unsigned long long int N;
+    cin>>N;
+    int idx = 1;//최소 이동 칸 수
+    unsigned long long int circle_last = 1;
+    unsigned long long int cnt = 6;//6씩 늘어나는 계차
+    
+    while(1){
+        if(N <= circle_last){
+            break;
+        }
+        idx++;
+        circle_last += cnt;
+        cnt += 6;
+    }
+    
+    cout<<idx;
+    return 0;
+}
