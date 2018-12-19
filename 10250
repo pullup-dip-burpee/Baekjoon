@@ -1,0 +1,23 @@
+//silverysky 10250 ACM호텔
+#include <iostream>
+using namespace std;
+
+int main(void){
+    int T, H, W, N;
+    cin>>T;
+
+    for(int i=0; i<T; i++){
+        cin>>H>>W>>N;
+        W = N/H+1;
+        N = N%H;
+        if(N==0){
+            N = H;
+            W--;
+        }
+        cout<<N;
+        if(W<10)
+            cout<<0;
+        cout<<W<<endl;
+    }
+    return 0;
+}
