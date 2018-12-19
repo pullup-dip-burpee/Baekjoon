@@ -1,0 +1,45 @@
+//silverysky 1193
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main(void){
+    vector<int> tmp;//가령 cnt==5일 때 123454321을 담기 위한 vector
+    int a, b;//분자, 분모
+    long long n;
+    int cnt;
+    long long tot;
+    cin>>n;
+    
+    //분자
+    cnt = -1; tot = 0;
+    tmp.clear();
+    while(tot < n){
+        cnt += 2;
+        tot += cnt*2-1;
+    }
+    for(int i=0; i<cnt; i++){
+        tmp.push_back(i+1);
+    }
+    for(int i=0; i<cnt-1; i++){
+        tmp.push_back(cnt-1-i);
+    }
+    a = tmp[tot-n];
+    
+    //분모
+    cnt=0; tot=0;
+    tmp.clear();
+    while(tot < n){
+        cnt += 2;
+        tot += cnt*2-1;
+    }
+    for(int i=0; i<cnt; i++){
+        tmp.push_back(i+1);
+    }
+    for(int i=0; i<cnt-1; i++){
+        tmp.push_back(cnt-1-i);
+    }
+    b = tmp[tot-n];
+    cout<<a<<"/"<<b;
+    return 0;
+}
