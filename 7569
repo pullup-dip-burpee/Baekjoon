@@ -1,0 +1,123 @@
+//silvernskn 7569 토마토
+#include <iostream>
+#include <queue>
+using namespace std;
+typedef struct _hnm{
+    int h;
+    int n;
+    int m;
+} hnm;
+int tomato[102][102][102];
+queue<hnm> q;
+
+int tot = 0;//전체 토마토 개수
+int ripe = 0;//익은 토마토 개수
+int cnt = 0;//BFS함수를 실행한 횟수
+
+int main(void){
+	for(int i=0; i<102; i++){
+		for(int j=0; j<102; j++){
+            for(int k=0; k<102; k++)
+                tomato[i][j][k] = -1;
+        }
+	}
+    int possible = 1;//전부 다 익을 수 있는지
+    int M, N, H;
+    hnm tmp, tmp2;
+    int qnum = 0, qnum2 = 0;//queue에 한번에 들어간 횟수
+    cin>>M>>N>>H;
+    //////////////////////////////////////////////////////////
+    for(int i=1; i<=H; i++){
+        for(int j=1; j<=N; j++){
+            for(int k=1; k<=M; k++){
+                cin>>tomato[i][j][k];
+                if(tomato[i][j][k]!=-1)
+                    tot++;
+                if(tomato[i][j][k]==1){
+                    tmp.h = i;
+                    tmp.n = j;
+                    tmp.m = k;
+                    q.push(tmp);
+                    ripe++;
+                    qnum++;
+                }
+            }
+        }
+    }
+//////////////////////////////////////////////////////////
+    while(ripe<tot && (!q.empty()) && possible==1){
+        possible = 0;
+        for(int k=0; k<qnum; k++){
+            tmp = q.front();
+            q.pop();
+            if(tomato[tmp.h-1][tmp.n][tmp.m]==0){
+                tmp2.h = tmp.h-1; tmp2.n = tmp.n; tmp2.m = tmp.m;
+                q.push(tmp2);
+                tomato[tmp.h-1][tmp.n][tmp.m] = 1;
+                ripe++;
+                possible = 1;
+                qnum2++;
+            }
+            if(tomato[tmp.h+1][tmp.n][tmp.m]==0){
+                tmp2.h = tmp.h+1; tmp2.n = tmp.n; tmp2.m = tmp.m;
+                q.push(tmp2);
+                tomato[tmp.h+1][tmp.n][tmp.m] = 1;
+                ripe++;
+                possible = 1;
+                qnum2++;
+            }
+            if(tomato[tmp.h][tmp.n-1][tmp.m]==0){
+                tmp2.h = tmp.h; tmp2.n = tmp.n-1; tmp2.m = tmp.m;
+                q.push(tmp2);
+                tomato[tmp.h][tmp.n-1][tmp.m] = 1;
+                ripe++;
+                possible = 1;
+                qnum2++;
+            }
+            if(tomato[tmp.h][tmp.n+1][tmp.m]==0){
+                tmp2.h = tmp.h; tmp2.n = tmp.n+1; tmp2.m = tmp.m;
+                q.push(tmp2);
+                tomato[tmp.h][tmp.n+1][tmp.m] = 1;
+                ripe++;
+                possible = 1;
+                qnum2++;
+            }
+            if(tomato[tmp.h][tmp.n][tmp.m-1]==0){
+                tmp2.h = tmp.h; tmp2.n = tmp.n; tmp2.m = tmp.m-1;
+                q.push(tmp2);
+                tomato[tmp.h][tmp.n][tmp.m-1] = 1;
+                ripe++;
+                possible = 1;
+                qnum2++;
+            }
+            if(tomato[tmp.h][tmp.n][tmp.m+1]==0){
+                tmp2.h = tmp.h; tmp2.n = tmp.n; tmp2.m = tmp.m+1;
+                q.push(tmp2);
+                tomato[tmp.h][tmp.n][tmp.m+1] = 1;
+                ripe++;
+                possible = 1;
+                qnum2++;
+            }
+            
+        }
+        qnum = qnum2;
+        qnum2 = 0;
+        cnt++;
+		///////////////////////////
+        //for(int i=1; i<=H; i++){
+		//for(int j=1; j<=N; j++){
+        //   for(int k=1; k<=M; k++)
+        //        cout<<tomato[i][j][k]<<" ";
+		//	cout<<endl;
+        //}
+		//}
+		//////////////////////////
+    }
+    	
+    if(possible==0)
+        printf("-1");
+    else
+        printf("%d", cnt);
+    
+    return 0;
+}
