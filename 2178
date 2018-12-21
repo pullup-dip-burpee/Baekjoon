@@ -1,0 +1,104 @@
+//silverysky 2178 미로 탐색
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+typedef struct _xy{
+    int x; int y;
+} xy;
+
+int arr[102][102];
+
+queue<xy> q;
+
+int main(void){
+    for(int i=0; i<102; i++){
+        for(int j=0; j<102; j++){
+            arr[i][j] = -1;
+        }
+    }
+    int qnum = 0, qnum2 = 0;
+    int minmove = 1;//최소이동횟수
+    int N, M;
+    bool reached = false;
+    xy tmp, tmp2;
+    cin>>N>>M;
+    for(int i=1; i<=N; i++){
+        for(int j=1; j<=M; j++){
+            scanf("%1d", &arr[i][j]);
+        }
+    }
+    tmp.x = 1; tmp.y = 1;
+    q.push(tmp);
+    qnum = 1;
+    while(reached == false){
+    	/////////////
+    	//printf("qnum : %d\n", qnum);
+    	//for(int i=1; i<=N; i++){
+    	//	for(int j=1; j<=M; j++){
+    	//		printf("%d", arr[i][j]);
+    	//	}
+    	//	printf("\n");
+    	//}
+    	//printf("-----------------------------\n");
+    	///////////
+        for(int k=0; k<qnum; k++){
+            tmp = q.front();
+            q.pop();
+            arr[tmp.x][tmp.y]=2;//2==이미 갔던 곳
+            if(arr[tmp.x-1][tmp.y]==1){//1==갈 수 있는 곳
+                tmp2.x = tmp.x-1; tmp2.y = tmp.y;
+                q.push(tmp2);
+                arr[tmp.x-1][tmp.y] = 2;
+                qnum2++;
+                if(tmp2.x==N && tmp2.y==M){
+                    reached = true;
+                    break;
+                }
+            }
+            if(arr[tmp.x+1][tmp.y]==1){//1==갈 수 있는 곳
+                tmp2.x = tmp.x+1; tmp2.y = tmp.y;
+                q.push(tmp2);
+                arr[tmp.x+1][tmp.y] = 2;
+                qnum2++;
+                if(tmp2.x==N && tmp2.y==M){
+                    reached = true;
+                    break;
+                }
+            }
+            if(arr[tmp.x][tmp.y-1]==1){//1==갈 수 있는 곳
+                tmp2.x = tmp.x; tmp2.y = tmp.y-1;
+                q.push(tmp2);
+                arr[tmp.x][tmp.y-1] = 2;
+                qnum2++;
+                if(tmp2.x==N && tmp2.y==M){
+                    reached = true;
+                    break;
+                }
+            }
+            if(arr[tmp.x][tmp.y+1]==1){//1==갈 수 있는 곳
+                tmp2.x = tmp.x; tmp2.y = tmp.y+1;
+                q.push(tmp2);
+                arr[tmp.x][tmp.y+1] = 2;
+                qnum2++;
+                if(tmp2.x==N && tmp2.y==M){
+                    reached = true;
+                    break;
+                }
+            }
+            if(reached==true){
+            	minmove++;
+                break;
+            }
+        }
+        qnum = qnum2;
+        qnum2 = 0;
+        minmove++;
+        
+    }
+    
+    cout<<minmove;
+    return 0;
+}
