@@ -1,0 +1,87 @@
+//silverysky 2667
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+typedef struct _xy{
+    int x; int y;
+} xy;
+int ud[4] = {1, -1, 0, 0};
+int lr[4] =  {0, 0, 1, -1};
+int N;//입력값
+int num=0;//단지수
+int apart[25][25];
+vector<int> buildings;//각 단지의 건물 수 저장 및 정렬
+queue<xy> q;
+xy sp;//starting point
+xy tmp;
+int res=0;//단지의 건물 수
+
+bool findStart(){
+
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            if(apart[i][j]==1){
+                xy bb;
+                bb.x=i; bb.y=j;
+                apart[i][j] = 2;
+                sp = bb;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool rangeCheck(int a, int b){
+    if(0<=a && a<N && 0<=b && b<N)
+        return true;
+    else
+        return false;
+}
+void search(xy a){
+	xy tmp2;
+    for(int i=0; i<4; i++){
+        if(rangeCheck(a.x+ud[i], a.y+lr[i]) && apart[a.x+ud[i]][a.y+lr[i]]==1){
+            tmp2.x=a.x+ud[i]; tmp2.y=a.y+lr[i];
+            q.push(tmp2);
+            apart[tmp2.x][tmp2.y] = 2;
+        }
+    }
+}
+int main(void){
+    cin>>N;
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            scanf("%1d", &apart[i][j]);
+        }
+    }
+    while(findStart()){
+        q.push(sp);
+        res = 0;
+        while(!q.empty()){
+            tmp = q.front();
+            q.pop();
+            
+            search(tmp);
+            res++;
+            //지도 출력
+            ///////////////////
+            //for(int i=0; i<N; i++){
+            //	for(int j=0; j<N; j++)
+            //		cout<<apart[i][j];
+            //	cout<<endl;
+            //}
+            ////////////////////
+        }
+        buildings.push_back(res);
+        num++;
+    }
+    sort(buildings.begin(), buildings.end());
+    cout<<num<<endl;
+    for(int i=0; i<num; i++)
+        cout<<buildings[i]<<endl;
+    return 0;
+}
