@@ -1,22 +1,80 @@
-//silverysky 10216
+//silverysky 1325
 #include <iostream>
-#include <queue>
 #include <vector>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
-typedef struct _xy{
-    int x; int y;
-} xy;
-int ud[4] = {1, -1, 0, 0};
-int lr[4] =  {0, 0, 1, -1};
-int arr[5001][5001];
+int cnt = 0;//각 노드에서 직간접 접근 가능한 노드의 수
+
+class graph{
+public:
+	vector<vector<int> > list;//이차원 벡터의 각 요소 벡터의 0번째 원소는 노드 번호
+	vector<int> stack;//stack 구현 대신 STL vector 사용
+    
+	int vertex_num;
+	graph(){
+		list.clear();
+		stack.clear();
+		
+		vector<int> tmp = {0};//편의를 위해 list의 첫 원소는 빈 벡터로 함
+		list.push_back(tmp);
+		vertex_num = 0;//vertex의 개수
+	}
+	void add_vertex(int a);
+	void add_edge(int a, int b);
+	bool visited(int v);
+	void DFS(int v);
+	void BFS(int s);
+};
+void graph::add_vertex(int a){
+	vector<int> tmplist;
+	tmplist.push_back(a);
+	list.push_back(tmplist);
+	vertex_num++;
+}
+void graph::add_edge(int a, int b){//중복 edge 있는지 없는지 검사 미구현
+	for(int i=1; i<=vertex_num; i++){
+		if(list[i][0] == b){
+			list[i].push_back(a);
+			break;
+		}
+	}
+	sort(list[b].begin()+1, list[b].end());
+}
+bool graph::visited(int v){
+	for(int i=0; i<stack.size(); i++){
+		if(stack[i]==v)
+			return true;
+	}
+	return false;
+}
+
 
 int main(void){
-    int T, N, x, y, R;
-    cin>>T;
+    graph g = graph();
+    int N, M;
+    int a, b;
+    int max=0;
+    int arr[10001];
+    cin>>N>>M;
     for(int i=0; i<N; i++){
-        scanf("%d %d %d", &x, &y, &R);
+        g.add_vertex(i+1);
+    }
+    for(int i=0; i<M; i++){
+        scanf("%d %d", &a, &b);
+        g.add_edge(a, b);
+    }
+    for(int i=0; i<N; i++){
+        cnt = g.list[i+1].size()-1;
+        arr[i+1] = cnt;
+        if(cnt>max)
+            max = cnt;
     }
     
+    for(int i=0; i<N; i++){
+        if(arr[i+1]==max)
+            printf("%d ", i+1);
+    }
     return 0;
 }
