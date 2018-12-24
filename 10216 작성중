@@ -1,0 +1,22 @@
+//silverysky 10216
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+typedef struct _xy{
+    int x; int y;
+} xy;
+int ud[4] = {1, -1, 0, 0};
+int lr[4] =  {0, 0, 1, -1};
+int arr[5001][5001];
+
+int main(void){
+    int T, N, x, y, R;
+    cin>>T;
+    for(int i=0; i<N; i++){
+        scanf("%d %d %d", &x, &y, &R);
+    }
+    
+    return 0;
+}
