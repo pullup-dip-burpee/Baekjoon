@@ -1,0 +1,77 @@
+//silverysky 1325
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+
+int cnt = 0;//각 노드에서 직간접 접근 가능한 노드의 수
+int val[10001] = {0, };
+int del[10001] = {0, };//del[i]==1이면 이미 방문
+class graph{
+public:
+	vector<vector<int> > list;
+    
+	int vertex_num;
+	graph(){
+		list.clear();
+		vector<int> tmp = {0};//편의를 위해 list의 첫 원소는 빈 벡터로 함
+		list.push_back(tmp);
+	}
+	void add_vertex(int a);
+	void add_edge(int a, int b);
+	void DFS(int v);
+};
+void graph::add_vertex(int a){
+	vector<int> tmplist;
+	tmplist.push_back(a);
+	list.push_back(tmplist);
+}
+void graph::add_edge(int a, int b){
+	for(int i=1; i<=vertex_num; i++){
+		if(list[i][0] == b){
+			list[i].push_back(a);
+			break;
+		}
+	}
+}
+void graph::DFS(int v){
+    if(del[v])
+        return;
+    cnt++;
+    del[v]=1;
+	for(int i=1; i<list[v].size(); i++){//0번은 그 노드의 번호이므로 제외
+		DFS(list[v][i]);
+	}
+}
+
+int main(void){
+    graph g = graph();
+    int N, M;
+    int a, b;
+    int max=0;
+    //그래프 만들기
+    cin>>N>>M;
+    for(int i=0; i<N; i++){
+        g.add_vertex(i+1);
+    }
+    for(int i=0; i<M; i++){
+        scanf("%d %d", &a, &b);
+        g.add_edge(a, b);
+    }
+    //dfs
+    for(int i=0; i<N; i++){
+        cnt = 0;
+        for(int j=0; j<N; j++)
+            del[j+1]=0;
+        g.DFS(i+1);
+        val[i+1] = cnt;
+        if(cnt>max)
+            max = cnt;
+    }
+    
+    for(int i=0; i<N; i++){
+        if(val[i+1]==max)
+            printf("%d ", i+1);
+    }
+    return 0;
+}
