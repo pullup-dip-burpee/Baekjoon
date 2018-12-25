@@ -1,0 +1,73 @@
+//silverysky 10216
+//DFS로 풀기
+#include <iostream>
+#include <queue>
+#include <cmath>
+using namespace std;
+typedef struct _xyr{
+    int x, y, r;
+    int idx;
+} xyr;//x y는 좌표, r은 반지름, idx는 idx번째 타워(==노드)인 걸 나타냄
+
+vector<xyr> vec[6000];//인접 리스트 구현, vec[i][0]은 idx==i인 노드고 vec[i][1]부터는 그 노드에 인접한 노드
+bool visited[6000];//DFS의 스택
+
+void stackInit(){
+    for(int i=0; i<6000; i++)
+        visited[i] = false;
+}
+
+void DFS(int v){
+    if(visited[v]==true)//방문한 노드면 진행 안함
+        return;
+    
+    visited[v] = true;
+    for(int i=1; i<vec[v].size(); i++){
+        DFS(vec[v][i].idx);//인접한 노드의 idx를 구해서 그걸로 다시 DFS함
+    }
+}
+int main(void){
+
+    int cnt=0;
+    int T, N;
+    int x, y, r;
+    
+    cin>>T;//T개의 테스트 케이스
+    for(int i=0; i<T; i++){
+    	stackInit();//DFS스택(visited) 초기화
+        
+        cnt=0;
+        //입력값
+        cin>>N;
+        for(int j=0; j<N; j++){
+            vec[j].clear();
+            scanf("%d %d %d", &x, &y, &r);
+            vec[j].push_back({x, y, r, j});
+        }
+        //각 노드가 연결되는지 안 되는지 검사하고 연결
+        for(int j=0; j<N; j++){
+            for(int k=j+1; k<N; k++){
+                int x1 = vec[j][0].x, y1 = vec[j][0].y, r1 = vec[j][0].r;
+                int x2 = vec[k][0].x, y2 = vec[k][0].y, r2 = vec[k][0].r;
+                
+                //피타고라스 공식, 두 타워의 감시반경이 겹치거나 닿으면 두 타워를 인접 리스트로 연결함
+                if(pow(x1-x2,2)+pow(y1-y2,2) <= pow(r1+r2, 2)){
+                    vec[j].push_back(vec[k][0]);
+                    vec[k].push_back(vec[j][0]);
+                }
+            }
+        }
+        for(int j=0; j<N; j++){
+            if(visited[vec[j][0].idx]==false){
+                DFS(j);
+                cnt++;
+            }
+        }
+        //결과값 출력
+        printf("%d", cnt);
+        if(i!=T-1)
+            printf("\n");
+    }
+    
+	return 0;
+}
