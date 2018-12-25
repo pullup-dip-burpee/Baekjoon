@@ -1,8 +1,69 @@
 //silverysky 10216
+//BFS로 풀려고 하면 메모리 초과 뜬다
 #include <iostream>
+#include <queue>
+#include <cmath>
 using namespace std;
+typedef struct _xyr{
+    int x, y, r;
+} xyr;
 
+vector<int> adjacent[3001];
+xyr tower[3001];
+bool visited[3001];
+
+void stackInit(){
+    for(int i=0; i<3001; i++)
+        visited[i] = false;
+}
+
+void DFS(int v){
+    if(visited[v]==true)
+        return;
+    
+    visited[v] = true;
+    for(int i=1; i<=vec[v].size(); i++){
+        DFS(vec[v][i].idx);
+    }
+}
 int main(void){
 
+    int cnt=0;
+    int T, N;
+    int x, y, r;
+    
+    cin>>T;
+    for(int i=0; i<T; i++){
+    	stackInit();//visited 초기화
+        
+        cnt=0;
+        cin>>N;
+        for(int j=0; j<N; j++){
+            scanf("%d %d %d", &x, &y, &r);
+            tower[j] = {x, y, r};//j번째 tower의 값 입력
+        }
+        for(int j=0; j<N; j++){
+            for(int k=i+1; k<N; k++){
+                int x1 = vec[j][0].x, y1 = vec[j][0].y, r1 = vec[j][0].r;
+                int x2 = vec[k][0].x, y2 = vec[k][0].y, r2 = vec[k][0].r;
+                
+                //피타고라스 공식
+                if(pow(x1-x2,2)+pow(y1-y2,2) <= pow(r1+r2, 2)){
+                    vec[j].push_back(vec[k][0]);
+                    vec[k].push_back(vec[j][0]);
+                }
+            }
+        }
+        for(int j=0; j<N; j++){
+            if(visited[j]==false){
+                DFS(j);
+                cnt++;
+            }
+        }
+        printf("%d", cnt);
+        if(i!=T-1)
+            printf("\n");
+    }
+    
 	return 0;
 }
