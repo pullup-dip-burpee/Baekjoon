@@ -1,0 +1,47 @@
+//silverysky 1697
+//BFS로 풀기
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int arr[100001] = {0 ,};
+int main(void){
+    int N, K;
+    queue<int> q;
+    int qnum = 0, qnum2 = 0;
+    int cnt = 0;
+    int tmp;
+    cin>>N>>K;
+    
+    arr[N] = 1;
+    q.push(N);
+    qnum = 1;
+    while(!q.empty()){
+        if(arr[K])//N==K인 경우도 생각해야 하므로 맨 앞에 넣음
+            break;
+        for(int i=0; i<qnum; i++){
+            tmp = q.front();
+            q.pop();
+            if(tmp-1>=0 && arr[tmp-1]==0){
+                q.push(tmp-1);
+                arr[tmp-1]=1;
+                qnum2++;
+            }
+            if(tmp+1 <= 100000 && arr[tmp+1]==0){
+                q.push(tmp+1);
+                arr[tmp+1]=1;
+                qnum2++;
+            }
+            if(tmp*2 <= 100000 && arr[tmp*2]==0){
+                q.push(tmp*2);
+                arr[tmp*2]=1;
+                qnum2++;
+            }
+        }
+        qnum = qnum2;
+        qnum2=0;
+        cnt++;
+    }
+    cout<<cnt;
+    return 0;
+}
