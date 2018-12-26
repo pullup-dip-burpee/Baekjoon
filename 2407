@@ -1,0 +1,94 @@
+//silverysky 2407
+//long long 범위도 벗어나서 간단한 bigint 구현
+#include <iostream>
+#include <vector>
+using namespace std;
+class bigint{
+public:
+    vector<int> data;//1의 자릿수부터 거꾸로 저장됨
+    int digit;//자릿수
+    bigint(){
+        data.clear();
+        digit = 0;
+    }
+    bigint(int n){
+        int tmp = n;
+        digit = 0;
+        while(1){
+            data.push_back(tmp%10);
+            tmp /= 10;
+            digit++;
+            if(tmp<10)
+                break;
+        }
+    }
+};
+void biPrint(bigint& a){
+    for(auto i=a.data.rbegin(); i!=a.data.rend(); i++){
+        printf("%d", *i);//뒤일수록 높은 자리수이므로 뒤부터 출력
+    }
+}
+bigint operator+(const bigint& x, const bigint& y){
+    bigint a = x;
+    bigint b = y;
+    int mindigit = (a.digit < b.digit) ? a.digit : b.digit;
+    int maxdigit = (a.digit > b.digit) ? a.digit : b.digit;
+    int carry=0;
+    int tmp;
+    bigint res=bigint();
+    
+    //더 짧은 자릿수의 숫자를 계산 편하게 0을 채워넣음
+    if(a.digit>b.digit){
+        for(int i=0; i<maxdigit-mindigit; i++)
+            b.data.push_back(0);
+    }
+    else{
+        for(int i=0; i<maxdigit-mindigit; i++)
+            a.data.push_back(0);
+    }
+    //더하기 계산
+    for(int i=0; i<maxdigit; i++){
+        tmp = a.data[i]+b.data[i]+carry;
+        if(tmp>=10){
+            carry = 1;
+            tmp -= 10;
+            //cout<<"carry : "<<carry<<", tmp = "<<tmp<<endl;//erase
+        }
+        else
+        	carry = 0;
+        res.data.push_back(tmp);
+    }
+    if(carry == 1){
+        res.digit = maxdigit+1;
+        res.data.push_back(1);
+    }
+    else
+        res.digit = maxdigit;
+    
+    return res;
+}
+bigint arr[101][101];//nCm 저장용
+
+int main(void){
+    int n, m;
+    cin>>n>>m;
+    //
+    arr[0][0] = bigint(1);
+    arr[1][0] = bigint(1);
+    arr[1][1] = bigint(1);
+    for(int i=2; i<=100; i++){
+        arr[i][i] = bigint(1);
+        arr[i][0] = bigint(1);
+        for(int j=1; j<i; j++){
+            arr[i][j] = arr[i-1][j-1] + arr[i-1][j];
+            //printf("%d C %d : ", i, j);//erase
+            //biPrint(arr[i-1][j-1]);//erase
+            //printf(" + ");
+            //biPrint(arr[i-1][j]);
+            //printf("\n");//erase
+        }
+    }
+    //
+    biPrint(arr[n][m]);
+    return 0;
+}
