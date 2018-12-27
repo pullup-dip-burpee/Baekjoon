@@ -1,0 +1,88 @@
+//silverysky 11404 플로이드
+//다익스트라 알고리즘
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+//행렬 구현
+int arr[101][101] = {0, };
+
+
+int main(void){
+    //그래프 초기화
+    for(int i=0; i<101; i++){
+        for(int j=0; j<101; j++)
+            if(i!=j)
+                arr[i][j] = 999999;
+    }
+    //입력값
+    int n, m;
+    int a,b,c;
+    cin>>n>>m;
+    for(int i=0; i<m; i++){
+        scanf("%d %d %d", &a, &b, &c);
+        if(c < arr[a][b])
+            arr[a][b] = c;
+    }
+    ////////////////
+    //    for(int k=1; k<=n; k++){
+    //	    for(int j=1; j<=n; j++){
+    //    	    if(arr[k][j]==999999)
+    //        	    printf("0 ");
+    //	      else
+    //   	        printf("%d ", arr[k][j]);
+    //        }
+    //    	printf("\n");
+	//    }
+	//    printf("-----------\n");
+	////////////////
+    //다익스트라
+    for(int i=1; i<=n; i++){//i : 출발점
+        queue<int> q;
+        q.push(i);//출발점을 큐에 넣음
+        for(int j=1; j<=n; j++){
+            if(i!=j)
+                q.push(j);
+        }
+        while(!q.empty()){
+            int v = q.front();
+            q.pop();
+            for(int j=1; j<=n; j++){//v와 연결된 점들에 대해 거리를 계산해보자
+                if(v!=j && arr[v][j]<999999){//i와 j가 연결되어 있으면
+                    int sum = arr[i][v] + arr[v][j];//i부터 v를 거쳐 j로 가는 거리
+                    if(sum < arr[i][j]){//기존값보다 짧은 거리면
+                        arr[i][j] = sum;//i에서 j로 가는 최단거리를 갱신하고
+                        q.push(j);//j까지의 거리가 갱신되었으므로 i부터 j를 거치는 거리 다시 계산
+                    }
+                    
+                }
+            }
+        }
+        ////////////////
+        //for(int k=1; k<=n; k++){
+    	//    for(int j=1; j<=n; j++){
+        //	    if(arr[k][j]==999999)
+        //   	    printf("0 ");
+    	//      else
+        //	        printf("%d ", arr[k][j]);
+        //    }
+        //	printf("\n");
+	    //}
+	    //printf("-----------\n");
+	    ////////////////
+    }
+    //출력값
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=n; j++){
+            if(arr[i][j]==999999)
+                printf("0 ");
+            else
+                printf("%d ", arr[i][j]);
+        }
+        if(i<n)
+            printf("\n");
+    }
+    return 0;
+}
