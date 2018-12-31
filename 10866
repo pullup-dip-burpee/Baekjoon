@@ -1,0 +1,156 @@
+//silverysky 10866 덱
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+typedef struct _node{
+    struct _node* prev;
+    struct _node* next;
+    int data;
+} node;
+
+class deque{
+public:
+    node* head;
+    node* tail;
+    int n;//data 개수
+    
+    deque(){
+        head=NULL;
+        tail=NULL;
+        n=0;
+    }
+    void push_back(int x){
+        node* tmp = (node*)malloc(sizeof(node));
+        tmp->data = x;
+        tmp->next = NULL; tmp->prev = NULL;
+        if(n==0){
+            head = tmp;
+            tail = tmp;
+        }
+        else{
+            tmp->prev = tail;
+            tail->next = tmp;
+            tail = tmp;
+        }
+        
+        n++;
+    }
+    void push_front(int x){
+        node* tmp = (node*)malloc(sizeof(node));
+        tmp->data = x;
+        tmp->next = NULL; tmp->prev = NULL;
+        if(n==0){
+            head = tmp;
+            tail = tmp;
+        }
+        else{
+            tmp->next = head;
+            head->prev = tmp;
+            head = tmp;
+        }
+        
+        n++;
+    }
+    void pop_front(){
+        if(n==0){
+            printf("-1\n");
+            return;
+        }
+        else{
+            printf("%d\n", head->data);
+            node* tmp = head;
+            if(n==1){
+                head = NULL;
+                tail = NULL;
+            }
+            else{
+                head = head->next;
+                head->prev = NULL;
+            }
+            free(tmp);
+            n--;
+        }
+    }
+    void pop_back(){
+        if(n==0){
+            printf("-1\n");
+            return;
+        }
+        else{
+            printf("%d\n", tail->data);
+            node* tmp = tail;
+            if(n==1){
+                head = NULL;
+                tail = NULL;
+            }
+            else{
+                tail = tail->prev;
+                tail->next = NULL;
+            }
+            free(tmp);
+            n--;
+        }
+    }
+    void size(){
+        printf("%d\n", n);
+    }
+    void empty(){
+        if(n==0)
+            printf("1\n");
+        else
+            printf("0\n");
+    }
+    void front(){
+        if(n==0)
+            printf("-1\n");
+        else
+            printf("%d\n", head->data);
+    }
+    void back(){
+        if(n==0)
+            printf("-1\n");
+        else
+            printf("%d\n", tail->data);
+    }
+};
+
+int main(void){
+    deque D = deque();
+    int N;
+    string cmd;
+    cin>>N;
+    for(int i=0; i<N; i++){
+        cin>>cmd;
+        if(cmd=="push_back"){
+            int x;
+            cin>>x;
+            D.push_back(x);
+        }
+        else if(cmd=="push_front"){
+            int x;
+            cin>>x;
+            D.push_front(x);
+        }
+        else if(cmd=="pop_front"){
+            D.pop_front();
+        }
+        else if(cmd=="pop_back"){
+            D.pop_back();
+        }
+        else if(cmd=="size"){
+            D.size();
+        }
+        else if(cmd=="empty"){
+            D.empty();
+        }
+        else if(cmd=="front"){
+            D.front();
+        }
+        else if(cmd=="back"){
+            D.back();
+        }
+    }
+    
+}
