@@ -1,0 +1,39 @@
+//silverysky 1991 트리 순회
+#include <iostream>
+using namespace std;
+
+typedef struct _node{
+    char data;
+    struct _node* left;
+    struct _node* right;
+} node;
+
+class tree{
+public:
+    node* root;
+    
+    tree(){
+        root = NULL;
+    }
+    void add(char parent, char lc, char rc){
+        node* tmp1 = (node*)malloc(sizeof(node));
+        node* tmp2 = (node*)malloc(sizeof(node));
+        node* tmp3 = (node*)malloc(sizeof(node));
+        
+        
+        if(root==NULL)
+            root = tmp;
+        else{
+            
+        }
+    }
+    
+    void preorder();
+    void inorder();
+    void postorder();
+}
+int main(void){
+    tree T = tree();
+    
+    return 0;
+}
