@@ -1,0 +1,74 @@
+//silverysky 1927
+#include <iostream>
+#define MAX_SIZE 100001
+using namespace std;
+
+class MinHeap{
+public:
+    int data[MAX_SIZE];
+    int n;
+    int last_op;//0 : insert, 1 : delete
+    
+    MinHeap(){
+        n=0;
+        last_op = 0;
+    }
+    void insert(int d);
+    int smallerChild(int k);
+    int deleteMin();
+    void siftDown(int k);
+    void minHeapBottomUp();
+};
+void MinHeap::insert(int d){//저장은 막 하고, 뺄 때만 정렬함
+    int p;
+    data[++n] = d;
+    last_op = 0;
+}
+
+int MinHeap::smallerChild(int k){//k의 두 자식 노드 중 뭐가 더 우선순위인지
+    if(k*2 > n) return 0;//말단 노드
+    else if(k*2==n) return k*2;//자식 노드 하나
+    else{
+        return (data[k*2] < data[k*2+1]) ? k*2 : k*2+1;
+    }
+}
+int MinHeap::deleteMin(){
+    if(n==0)
+        return 0;
+    else{
+    	if(last_op == 0)//전 연산이 삭제였으면 정렬된 상태이므로 정렬 필요 없음
+	    	minHeapBottomUp();
+      int res = data[1];
+      data[1] = data[n--];
+      siftDown(1);
+      last_op = 1;
+      return res;
+    }
+}
+void MinHeap::siftDown(int k){
+    int j;
+    while(k*2 <= n){
+        j = smallerChild(k);
+        if(j==0 || data[k] <= data[j])//k가 말단 노드거나 이미 정렬되었으면
+	        break;
+        int tmp = data[k];
+        data[k] = data[j];
+        data[j] = tmp;
+        k = j;
+    }
+}
+void MinHeap::minHeapBottomUp(){//정렬기능
+    for(int i=n/2+1; i >= 1; i--)
+        siftDown(i);
+}
+int main(void){
+    MinHeap h = MinHeap();
+    int N, cmd;
+    cin>>N;
+    while(N--){
+        scanf("%d",&cmd);
+        if(cmd==0) printf("%d\n", h.deleteMin());
+        else  h.insert(cmd);
+    }
+    return 0;
+}
