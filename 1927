@@ -71,4 +71,4 @@ int main(void){
         else  h.insert(cmd);
     }
     return 0;
-}
+} 
