@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <queue>
+#include <utility>
+using namespace std;
+
+vector<vector<pair<int,int> > > G(100001);//graph
+bool visited[100001] = {false, };
+int dist[1000001] = {0, };//출발점부터 각 점까지의 거리
+int maxdist = 0;//출발점부터 가장 먼 점까지의 거리
+int maxpoint;//출발점부터 가장 먼 점
+int res = 0;//트리의 지름
+
+void BFS(int s){
+    int v, next;
+    queue<int> q;
+    q.push(s);
+    visited[s] = true;
+    while(!q.empty()){
+        v = q.front();
+        q.pop();
+        //cout<<"BFS : "<<v <<" - ";//erase
+        for(int i=0; i<G[v].size(); i++){
+            next = G[v][i].first;
+            if(!visited[next]){
+            	visited[next] = true;
+            	q.push(next);
+                dist[next] = dist[v] + G[v][i].second;//s부터 next까지의 거리
+    		    if(dist[next] > maxdist){
+    		    	maxdist = dist[next];
+        			maxpoint = next;
+    		    }
+    		    //cout<<next<<". ";//erase
+        	}
+        }
+        //cout<<endl;//erase
+    }
+}
+
+int main(void){
+    int N, u, v, w;
+    pair<int,int> p;
+    //input
+    cin>>N;
+    for(int i=0; i<N; i++){
+        scanf("%d", &u);
+        while(1){
+            scanf("%d",&v);
+            if(v==-1) 
+                break;
+            scanf("%d",&w);
+            p.first = v; p.second = w;
+            G[u].push_back(p);
+            //cout<<"input : "<<u<<"->"<<p.first<<", w : "<<p.second<<endl;//erase
+            
+        }
+    }
+    //cout<<"BFS 1-------------------"<<endl;//erase
+    BFS(rand()%N + 1);//아무 값이나 골라서 BFS 1회, 가장 먼 거리의 점 잡기
+    //cout<<"BFS 2-------------------"<<endl;//erase
+    memset(visited, false, sizeof(visited));
+    memset(dist, 0, sizeof(dist));
+    BFS(maxpoint);
+    
+    cout<<maxdist;
+    
+    return 0;
+}
