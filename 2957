@@ -1,0 +1,39 @@
+//silverysky 2957
+//count가 int 형을 넘어가므로 long long을 써야 함
+//STL map 사용
+#include <iostream>
+#include <map>
+using namespace std;
+
+map<int, long long> m;
+
+
+int main(void){
+    map<int, long long>::iterator upperIter;
+    map<int, long long>::iterator lowerIter;
+    int N, x, xlevel;
+    long long count = 0;
+    
+    //upper bound, lower bound가 항상 값을 반환하도록
+	//입력 안되는 값인 0과 300001의 level값을 -1로 해줌
+    m[0] = -1;
+    m[300001] = -1;
+    //input
+    cin>>N;
+    for(int i=0; i<N; ++i){
+    	scanf("%d", &x);
+    	
+        lowerIter = --(m.lower_bound(x));
+        upperIter = m.upper_bound(x);
+        
+        //둘 중 큰 것
+        xlevel = (lowerIter->second > upperIter->second) ? lowerIter->second : upperIter->second;
+        //큰 것에서 1 더함
+        m[x] = ++xlevel;
+        //그만큼 count에 더함
+        count += xlevel;
+        printf("%lld\n", count);
+    }
+    
+    return 0;
+}
